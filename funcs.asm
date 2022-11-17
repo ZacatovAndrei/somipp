@@ -1,28 +1,30 @@
 clearscreen:
     ;Cleaning the window by scrolling it up
         mov ax, 0600h
-        mov bh,0fh
-        xor cx,cx
-        xor dx,dx
+        mov bh,1eh
+        mov cx,0
+        mov dx,184fh
+        ;xor dx,dx
         int 10h
+        push 0
         call gotoxy
 ret
 
 gotoxy:
     ;Moving cursor to the start position
-        mov ah,02h
+        push dx
+        push bx
+        mov bp,sp
+        mov dx,[bp+08]
+        mov ax,0200h
         xor bx,bx
         int 10h 
-ret
+        pop bx
+        pop dx
+ret 2
 
 strwrite:
-    mov ah,0eh
-    loop:
-        mov al,byte [si]
-        inc si
-        cmp al,0
-        je stop
-        int 10h
-        jmp loop
-    stop:
+    mov ah,13h
+    mov al,1
+    int 10h
 ret
