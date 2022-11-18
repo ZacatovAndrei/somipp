@@ -24,7 +24,7 @@
     ;call gotoxy
 
     mov bp , msg2
-    mov bx,0001h
+    mov bx,000bh
     mov cx, msg2end - msg2
     mov dx,0c17h
     call strwrite
