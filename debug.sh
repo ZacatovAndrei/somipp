@@ -1,1 +1,0 @@
-bochs -q 'boot:a' 'floppya: 1_44=fd.img, status=inserted'
