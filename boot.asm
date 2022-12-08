@@ -14,28 +14,52 @@
     push cs
     pop es
     mov bp , msg1
-    mov bx,0014h
+    mov bx,001eh
     mov cx, msg1end - msg1
     mov dx,0h
     call strwrite
     
-    ;push 0c17h
-    ;call gotoxy
-
     mov bp , msg2
     mov bx,000bh
     mov cx, msg2end - msg2
     mov dx,0c17h
     call strwrite
 
-    ;push 1832h
-    ;call gotoxy
-
     mov bp , msg3
     mov bx,006ch
     mov cx, msg3end - msg3
     mov dx,1832h
     call strwrite
+    ;set screen into 320x200 graphical mode
+    mov ax,0013h
+    int 10h
+
+    ;fucntion to draw stuff
+    mov al,01h   ;color
+    mov dx, 150  ; y 
+    mov cx,110   ; x
+    mov bx,50    ; final
+    call drawVerticalLine
+
+
+    mov al,02h
+    mov dx,50
+    mov cx,210
+    mov bx,110
+    call drawHorisontalLine
+
+
+    mov al,0eh ;color
+    mov dx,50  ;y
+    mov cx,210  ;x
+    mov bx,0
+    call drawDUL
+
+    mov al,0fh ;color
+    mov dx,50  ;y
+    mov cx,110 ;x
+    mov bx,0
+    call drawDUR
 end:
     jmp $
 %include "funcs.asm"

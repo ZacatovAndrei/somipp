@@ -28,3 +28,58 @@ strwrite:
     mov al,1
     int 10h
 ret
+
+
+; pass dx 
+; pass bx 
+drawVerticalLine:
+    mov ah, 0ch
+    loopVertical:
+    dec dx
+    cmp dx,bx
+    je retVertical
+    int 10h
+    jmp loopVertical
+
+retVertical:
+ret
+
+drawHorisontalLine:
+    mov ah, 0ch
+    loopHorisontal:
+    dec cx   
+    cmp cx,bx
+    je retHorisontal
+    int 10h
+    jmp loopHorisontal
+
+retHorisontal:
+ret
+
+drawDUL:
+    mov ah,0ch
+    loopDUL:
+    dec cx ; 200 200-199   <--<  
+    dec dx ; 100   bx:0
+    cmp dx,bx
+    je retDUL
+    int 10h
+    jmp loopDUL
+
+
+retDUL:
+ret
+
+drawDUR:
+    mov ah,0ch
+    loopDUR:
+    inc cx ; 
+    dec dx ; 
+    cmp dx,bx
+    je retDUR
+    int 10h
+    jmp loopDUR
+
+
+retDUR:
+ret
