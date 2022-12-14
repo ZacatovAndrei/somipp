@@ -30,56 +30,61 @@ strwrite:
 ret
 
 
-; pass dx 
-; pass bx 
-drawVerticalLine:
-    mov ah, 0ch
-    loopVertical:
-    dec dx
-    cmp dx,bx
-    je retVertical
+drawpixel:
+    mov ah,0ch
     int 10h
-    jmp loopVertical
+ret
 
+drawVerticalLine:
+    push dx
+    loopVertical:
+        dec dx
+        cmp dx,bx
+        je retVertical
+        call drawpixel
+    jmp loopVertical
 retVertical:
+pop dx
 ret
 
 drawHorisontalLine:
-    mov ah, 0ch
+    push cx
     loopHorisontal:
-    dec cx   
-    cmp cx,bx
-    je retHorisontal
-    int 10h
+        dec cx   
+        cmp cx,bx
+        je retHorisontal
+        call drawpixel
     jmp loopHorisontal
-
 retHorisontal:
+pop cx
 ret
 
-drawDUL:
-    mov ah,0ch
-    loopDUL:
-    dec cx ; 200 200-199   <--<  
-    dec dx ; 100   bx:0
-    cmp dx,bx
-    je retDUL
-    int 10h
-    jmp loopDUL
-
-
-retDUL:
+drawSlopedLeft:  ;draws sloped line from bottom to the top
+    push cx
+    push dx
+    lsl:
+        dec cx ;moving to the left 
+        dec dx ; moving up since y=0 is on the top of the screen
+        cmp cx,bx
+        je retlsl 
+        call drawpixel
+    jmp lsl
+retlsl:
+pop dx
+pop cx 
 ret
 
-drawDUR:
-    mov ah,0ch
-    loopDUR:
-    inc cx ; 
-    dec dx ; 
-    cmp dx,bx
-    je retDUR
-    int 10h
-    jmp loopDUR
-
-
-retDUR:
+drawSlopedRight:  ;draws sloped line from bottom to the top
+    push cx
+    push dx
+    lsr:
+        inc cx ;moving to the right 
+        dec dx ; moving up since y=0 is on the top of the screen
+        cmp cx,bx
+        je retlsl 
+        call drawpixel
+    jmp lsr
+retlsr:
+pop dx
+pop cx
 ret

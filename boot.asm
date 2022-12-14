@@ -31,35 +31,74 @@
     mov dx,1832h
     call strwrite
     ;set screen into 320x200 graphical mode
+    ;middle - 160,100
+    ;cube = 
+    ;       110-210 <- x
+    ;       50-150  <- y
     mov ax,0013h
     int 10h
 
-    ;fucntion to draw stuff
-    mov al,01h   ;color
-    mov dx, 150  ; y 
-    mov cx,110   ; x
-    mov bx,50    ; final
-    call drawVerticalLine
-
-
-    mov al,02h
+    ;Drawing stuff:
+    ;Since the interrupt call takes ax,cx and dx
+    ;Bx will be used to pass the stopping point to the function
+    ;Drawing the house roof
+    mov al,14  ;in yellow
+    mov bx,160
+    mov cx,210
     mov dx,50
+    call drawSlopedLeft   
+    mov bx,160
+    mov cx,110
+    mov dx,50
+    ;Drawing house box
+    call drawSlopedRight
+    mov al,1  ;in blue
+    mov dx,150
+    mov cx,210
+    mov bx,50 
+    call drawVerticalLine
+    mov cx,110
+    call drawVerticalLine
+    mov dx,150
     mov cx,210
     mov bx,110
     call drawHorisontalLine
+    mov dx,50
+    call drawHorisontalLine
+    ;drawing the window
+    mov al,4 ; in red
+    mov dx,90
+    mov bx,70 
+    mov cx,120
+    call drawVerticalLine
+    mov cx,130
+    call drawVerticalLine
+    mov cx,140
+    call drawVerticalLine
+    
+    mov dx,90
+    mov cx,140
+    mov bx,120
+    call drawHorisontalLine
+    mov dx,80
+    call drawHorisontalLine
+    mov dx,70
+    call drawHorisontalLine
+    
+    mov al,15
+    mov bx,145
+    mov cx,190
+    mov dx,75
+    call drawHorisontalLine
+    mov dx,150
+    call drawHorisontalLine
+    mov bx,75
+    mov cx,190
+    mov dx,150
+    call drawVerticalLine
+    mov cx,145
+    call drawVerticalLine
 
-
-    mov al,0eh ;color
-    mov dx,50  ;y
-    mov cx,210  ;x
-    mov bx,0
-    call drawDUL
-
-    mov al,0fh ;color
-    mov dx,50  ;y
-    mov cx,110 ;x
-    mov bx,0
-    call drawDUR
 end:
     jmp $
 %include "funcs.asm"
