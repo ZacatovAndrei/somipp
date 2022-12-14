@@ -3,4 +3,4 @@ image:
 debug: image
 	bochs "-q" 'boot:a' 'floppya: 1_44=fd.img, status=inserted'
 clean:
-	rm boot fd.img
+	rm boot fd.img funcs
